@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\AppController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,4 +36,18 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+
+Route::group(["middleware" => ["auth"]], function() {
+    
+   //Route::get("/apps", function() {
+   //    return Inertia::render("App/Index");
+   //}) ;
+   //追加
+    Route::get("/apps", [AppController::class, "index"]);
+    Route::get("/apps/create", [AppController::class,"create"]);
+    Route::get("/apps/{app}", [AppController::class,"show"]);
+    Route::post("/apps",[AppController::class,"store"]);
+  
+});
+    
 require __DIR__.'/auth.php';
