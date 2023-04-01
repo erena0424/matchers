@@ -20,6 +20,10 @@ const Show = (props) => {
             </div>
             
             <div>
+                <Link href={`/apps/${app.id}/edit`}>編集</Link>
+            </div>
+            
+            <div>
                 <Link href="/apps">戻る</Link>
             </div>
         

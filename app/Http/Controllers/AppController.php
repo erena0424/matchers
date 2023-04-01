@@ -26,4 +26,14 @@ class AppController extends Controller
         $app->fill($input)->save();
         return redirect("/apps/" . $app->id);
     }
+    public function edit(App $app)
+    {
+        return Inertia::render("App/Edit",["app"=>$app]);
+    }
+    public function update(PostRequest $postrequest, App $app)
+    {
+        $input = $postrequest ->all();
+        $app -> fill($input) -> save();
+        return redirect("/apps/".$app->id);
+    }
 }

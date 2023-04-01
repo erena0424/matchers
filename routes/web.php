@@ -45,8 +45,10 @@ Route::group(["middleware" => ["auth"]], function() {
    //追加
     Route::get("/apps", [AppController::class, "index"]);
     Route::get("/apps/create", [AppController::class,"create"]);
+    Route::get("/apps/{app}/edit",[AppController::class,"edit"]);
     Route::get("/apps/{app}", [AppController::class,"show"]);
     Route::post("/apps",[AppController::class,"store"]);
+    Route::put("/apps/{app}",[AppController::class,"update"]);
   
 });
     
