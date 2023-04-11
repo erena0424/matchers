@@ -36,4 +36,9 @@ class AppController extends Controller
         $app -> fill($input) -> save();
         return redirect("/apps/".$app->id);
     }
+   public function delete(App $app)
+   {
+       $app->delete();
+       return redirect("/apps");
+   }
 }

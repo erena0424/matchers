@@ -43,12 +43,15 @@ Route::group(["middleware" => ["auth"]], function() {
    //    return Inertia::render("App/Index");
    //}) ;
    //追加
-    Route::get("/apps", [AppController::class, "index"]);
+    Route::get("/apps", [AppController::class, "index"])
+        ->name('app.index');
     Route::get("/apps/create", [AppController::class,"create"]);
     Route::get("/apps/{app}/edit",[AppController::class,"edit"]);
     Route::get("/apps/{app}", [AppController::class,"show"]);
     Route::post("/apps",[AppController::class,"store"]);
     Route::put("/apps/{app}",[AppController::class,"update"]);
+    Route::delete("/apps/{app}",[AppController::class,"delete"]);
+   
   
 });
     
