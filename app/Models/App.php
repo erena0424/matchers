@@ -12,6 +12,16 @@ class App extends Model
     protected $fillable = [
         "name",
         "description",
-        "user_id"
+        "user_id",
+        "category_id"
     ];
+    
+    public function users(){
+        return $this->belongsToMany(User::class);
+    }
+    
+    public function category(){
+        return $this->belongsTo(Category::class);
+    }
+    
 }
