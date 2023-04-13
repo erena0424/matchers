@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Support\Facades\DB;
+use Illuminate\Support\Facades\DB;
 use DateTime;
 
 class CategorySeeder extends Seeder
@@ -17,8 +17,7 @@ class CategorySeeder extends Seeder
     public function run()
     {
         DB::table('categories')->insert([
-                'category_name'=>'友好',
-                'category_id'=> 1,
+                'category_name'=>'友達づくり',
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
             ]);

@@ -7,17 +7,18 @@ use Inertia\Inertia;
 use App\Models\App;
 use Auth;
 use App\Http\Requests\PostRequest;
+use App\Models\Category;
 
 class AppController extends Controller
 {
     public function index(App $app){
-        return Inertia::render("App/Index",["apps"=> $app->get()]);
+        return Inertia::render("App/Index",["apps"=> App::with("category")->get()]);
     }
     public function show(App $app){
-        return Inertia::render("App/Show",["app"=>$app]);
+        return Inertia::render("App/Show",["app"=>$app->load('category')]);
     }
-    public function create(){
-        return Inertia::render("App/Create");
+    public function create(Category $category){
+        return Inertia::render("App/Create",["categories"=>$category->get()]);
     }
     public function store(PostRequest $request, App $app)
     {

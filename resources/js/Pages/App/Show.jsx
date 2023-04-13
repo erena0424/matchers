@@ -23,6 +23,7 @@ const Show = (props) => {
         
                 <h3>本文</h3>
                 <p>{ app.description }</p>
+                <p>{ app.category.name}</p>
             </div>
             
             <div>

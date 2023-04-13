@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import {Link} from '@inertiajs/react';
 
@@ -22,6 +22,7 @@ const Index = (props) => {
                         </h2>
                         
                         <p>{ app.description }</p>
+                        <p>{ app.category.name }</p>
                 </div>
                 )) }
             </div>
