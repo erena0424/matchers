@@ -1,26 +1,10 @@
+{/*
 import React, {useState} from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import {Link} from '@inertiajs/react';
 
 const Index = (props) => {
-    const {apps}=props;
-    const [searchedApps,setSearchedApps] = useState(apps);
-    const [keyword, setKeyWord] = useState();
-    function handleKeywordChange(e){
-      setKeyWord(e.target.value)
-     
-    }
-    function search(){
-        console.log(searchedApps);
-        const filteredApps = apps.filter((app)=>{
-            const name=app.name;
-            const description=app.description;
-            return name.includes(keyword)||description.includes(keyword);
-        })
-        setSearchedApps(filteredApps);
-    }
-    
-    
+    const { apps } = props;
  
     return (
         <Authenticated auth={props.auth} header={
@@ -29,12 +13,10 @@ const Index = (props) => {
                 </h2>
             }>
             <Link href="/apps/create">Create</Link>
-            <input type='text' value={keyword} onChange={handleKeywordChange}/>
-            <button onClick={search} >検索</button>
             <div className="p-12">
                 <h1>App Name</h1>
             
-                {searchedApps.map((app) => (
+                {apps.map((app) => (
                     <div key = {app.id}>
                         <h2>
                             <Link href={`/apps/${app.id}`}>{ app.name }</Link>
@@ -51,3 +33,5 @@ const Index = (props) => {
 }
 
 export default Index;
+
+*/}
