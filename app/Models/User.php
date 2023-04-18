@@ -44,5 +44,14 @@ class User extends Authenticatable
     
     public function apps(){
     return $this->belongsToMany(App::class);
-}
+        
+    }
+    
+    public function companies(){
+        return $this->hasOne(Company::class);
+    }
+    
+    public function reviews(){
+        return $this->hasMany(Review::class);
+    }
 }
