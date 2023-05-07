@@ -21,5 +21,10 @@ class CategorySeeder extends Seeder
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime(),
             ]);
+        DB::table('categories')->insert([
+                'category_name'=>'言語交換',
+                'created_at' => new DateTime(),
+                'updated_at' => new DateTime(),
+            ]);
     }
 }

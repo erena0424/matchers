@@ -11,7 +11,7 @@ export default function Register() {
         name: '',
         email: '',
         password: '',
-        role:'general',
+        role:'editor',
         password_confirmation: '',
     });
 

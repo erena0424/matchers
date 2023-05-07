@@ -21,12 +21,15 @@ export default function Authenticated({ auth, header, children }) {
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink href={route('app.index')} active={route().current('dashboard')}>
                                     Dashboard
                                 </NavLink>
-                                <NavLink href={route('app.index')} active={route().current('index')}>
-                                    Apps
+                                <NavLink href="/apps/create">
+                                    新規投稿
                                 </NavLink>   
+                                <NavLink href="/apps/favorite">
+                                    お気に入り
+                                </NavLink>
                             </div>
                         </div>
 

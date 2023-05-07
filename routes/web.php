@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\AppController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,6 +27,8 @@ Route::get('/', function () {
     ]);
 });
 
+Route::get('/editorregister',[AppController::class,"editorregister"]);
+
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -39,20 +42,17 @@ Route::middleware('auth')->group(function () {
 
 Route::group(["middleware" => ["auth"]], function() {
     
-   //Route::get("/apps", function() {
-   //    return Inertia::render("App/Index");
-   //}) ;
-   //追加
     Route::get("/apps", [AppController::class, "index"])
         ->name('app.index');
+    Route::post("/apps/fev",[AppController::class,"like"]);
     Route::get("/apps/create", [AppController::class,"create"]);
     Route::get("/apps/{app}/edit",[AppController::class,"edit"]);
     Route::get("/apps/{app}", [AppController::class,"show"]);
+    Route::post("/apps/{app}",[AppController::class,"send_review"]);
     Route::post("/apps",[AppController::class,"store"]);
     Route::put("/apps/{app}",[AppController::class,"update"]);
     Route::delete("/apps/{app}",[AppController::class,"delete"]);
-   
-  
+    Route::get("/apps/favorite",[AppController::class,"favorite"]);
 });
     
 require __DIR__.'/auth.php';

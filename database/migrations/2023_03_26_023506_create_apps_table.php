@@ -19,6 +19,7 @@ return new class extends Migration
             $table->foreignId('category_id');
             $table->string('name',50);
             $table->string('description',200);
+            $table->string('image',100);
             $table->timestamps();
         });
     }
