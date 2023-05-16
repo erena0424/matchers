@@ -1,17 +1,13 @@
-import React, {useState,useRef} from "react";
+import {Link,useForm,router} from '@inertiajs/react';
+import React, {useState,useRef } from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import {Link,useForm} from '@inertiajs/react';
 import {FaHeart} from 'react-icons/fa';
 
 const Index = (props) => {
     const {apps,user,categories,favorites}=props;
-    const [like,setLike] = useState();
-    const [dislike,setDislike]= useState();
     const [searchedApps,setSearchedApps] = useState(apps);
-    console.log(searchedApps);
-    const {favoriteApp, setFavoriteApp,post}= useForm({
-        user_id:"",
-        app_id:"",
+    const {data, setData, post} = useForm({
+        app_id:""
     });
     const [keyword, setKeyWord] = useState("");
     const [key_id,setKey_id] = useState(1);
@@ -22,26 +18,6 @@ const Index = (props) => {
             return <Link href="/apps/create">Create</Link>
         }
     }
-    const handleSendFavorite = (e)=>{
-        e.preventDefault();
-        // post("/apps/fav");
-    };
-    const Savefavoritebutton= (props)=>{
-        // console.log("f_app",props.f_app);
-        if(isFavorite(props.f_app)){
-            return(
-            <form>
-                <button onClick={setDislike(props.f_app)} className="p-1 bg-purple-400 rounded-md">♥お気に入り</button>
-            </form>);
-        }else{
-            return (
-            <form onSubmit={handleSendFavorite}>
-                <button onClick={setLike(props.f_app)} className="p-1 bg-purple-200 rounded-md">♥お気に入り</button>
-            </form>
-            );
-        }
-    }
-    
     const isFavorite = ({id}) => {
         for (var i=0;i<favorites.length;i++){
             if (favorites[i].app_id==id){
@@ -80,24 +56,23 @@ const Index = (props) => {
         setSearchedApps(apps);
     }
     
-    function changefavorite(app){
+    async function changefavorite(app,e){
+        e.preventDefault();
+        console.log(e);
         if (isFavorite(app)){
-            console.log("changefavorite, favorite",isFavorite(app));
-            setFavoriteApp(favoriteApp.filter(item => item.app_id !== app.id)); //ここ直す
+            console.log("いいね済み");
+            router.delete(`/apps/fev/${app.id}`);
         }else{
-            // setFavoriteApp("user_id",user.id);
-            // setFavoriteApp("app_id",app.id); この書き方がnot function と言われたので直す。postも上手くいっていない
-            post("/apps/fav");
+            console.log("未いいね");
+            router.post(`/apps/fev/${app.id}`);
         }
-        
-        
     }
     
 
     return (
         <Authenticated auth={props.auth} header={
                 <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    Index
+                    Dashboard
                 </h2>
             }>
             <Createbutton/><br/>
@@ -108,8 +83,8 @@ const Index = (props) => {
             )}
                 <option　value="all">すべて選択</option>
             </select><br/>
-            <button onClick={search} className="p-1 bg-rightblue-200 rounded-md">検索</button><br/>
-            <button onClick={clear} className="p-1 bg-purple-400 rounded-md">クリア</button>
+            <button onClick={search} >検索</button><br/>
+            <button onClick={clear}>クリア</button>
             <div className="p-12">
                 <h1>App Name</h1>
             
@@ -117,13 +92,13 @@ const Index = (props) => {
                     <div key = {app.id}>
                         <h2>
                             <Link href={`/apps/${app.id}`}>{ app.name }</Link>
+                            <img src={app.image} style={{width:200,height:200, borderRadius: 200}}/>
                         </h2>
-                        <img src={app.image} style={{width:200,height:200, borderRadius: 200}}/>
+                        
                         <li>{ app.description }</li>
                         <li>{ app.category.category_name }</li>
-                        
-                        <Savefavoritebutton f_app={app}/>
-                        <FaHeart className="faheart" id="faheart" onClick={() => changefavorite(app)} style={{color: isFavorite(app) ?　"#E0306C"  : "white"}}/>
+        
+                        <FaHeart className="faheart" id="faheart" onClick={(e) => changefavorite(app,e)} style={{color: isFavorite(app) ?　"#E0306C"  : "white"}}/>
                        
                     </div>
                 )) }
@@ -131,6 +106,6 @@ const Index = (props) => {
             
         </Authenticated>
         );
-};
+}
 
 export default Index;

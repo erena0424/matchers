@@ -15,14 +15,24 @@ const Favorite = (props) => {
         }
         return false;
     };
-    const favoriteApps =(apps)=> {
-        const f_apps=[];
+    
+    const favoriteApps =(apps,f_apps)=> {
         apps.forEach((app)=>{
             if(isFavorite(app)){
                 f_apps.push(app);
         }
-        return f_apps;
     })};
+    
+    const f_apps = [];
+    {
+        apps.forEach((app)=>{
+            if(isFavorite(app)){
+                f_apps.push(app);
+        }
+    })}
+    console.log("apps",apps);
+    console.log("favorites",favorites);
+    console.log("f_apps",f_apps);
     
     return (
         <Authenticated auth={props.auth} header={
@@ -33,7 +43,7 @@ const Favorite = (props) => {
             <div className="p-12">
                 <h1>App Name</h1>
             
-                {favoriteApps.map((app)=>(
+                {f_apps.map((app)=>(
                     <div key = {app.id}>
                         <h2>
                             <Link href={`/apps/${app.id}`}>{ app.name }</Link>

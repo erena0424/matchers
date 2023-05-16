@@ -1,10 +1,60 @@
-import { Link, Head } from '@inertiajs/react';
+import { Link, Head,useForm } from '@inertiajs/react';
+import {useState,useRef} from "react";
+import {FaHeart} from 'react-icons/fa';
 
-export default function Welcome(props) {
+const Welcome = (props)=> {
+    const {apps,user,categories}=props;
+    const [searchedApps,setSearchedApps] = useState(apps);
+    const {data, setData, post} = useForm({
+        app_id:""
+    });
+    const [keyword, setKeyWord] = useState("");
+    const [key_id,setKey_id] = useState(1);
+    const inputRef=useRef(null);
+    const selectedRef=useRef(null);
+    function handleKeywordChange(e){
+      setKeyWord(e.target.value);
+    }
+    function handleKey_idChange(e){
+        setKey_id(e.target.value);
+    }
+    function search(){
+        const filteredApps = apps.filter((app)=>{
+            const name=app.name;
+            const description=app.description;
+            const category_id=app.category_id;
+            if (keyword, key_id=="all"){
+                return (name.includes(keyword)||description.includes(keyword));
+            }else if(key_id=="all"){
+                return;
+            }else if(keyword, key_id){
+                return ((name.includes(keyword)||description.includes(keyword))&&(category_id==key_id));
+            }else if(key_id){
+                return (category_id==key_id);
+            }
+        });
+        setSearchedApps(filteredApps);
+    }
+    function clear(){
+        inputRef.current.value="";
+        selectedRef.current.value="all";
+        setSearchedApps(apps);
+    }
     return (
         <>
             <Head title="Welcome" />
             <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+                <div className="sm:fixed sm:top-0 sm:left-0">
+                    <input ref = {inputRef} type='text' value={keyword} onChange={handleKeywordChange}/><br/>
+                    <select ref={selectedRef} onChange={handleKey_idChange}>
+                    {categories?.map((category)=>
+                        <option value={category.id}>{category.category_name}</option>
+                    )}
+                        <option　value="all">すべて選択</option>
+                    </select><br/>
+                    <button className="p-1 bg-purple-300 hover:bg-purple-400 rounded-md" onClick={search} >検索</button><br/>
+                    <button className="p-1 bg-purple-300 hover:bg-purple-100 rounded-md" onClick={clear}>クリア</button>
+                </div>
                 <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
                     {props.auth.user ? (
                         <Link
@@ -31,6 +81,24 @@ export default function Welcome(props) {
                         </>
                     )}
                 </div>
+                <div className="p-12">
+                    <h1>App Name</h1>
+                
+                    {searchedApps.map((app) => (
+                        <div key = {app.id}>
+                            <h2>
+                                <Link href={`/apps/${app.id}`}>{ app.name }</Link>
+                                <img src={app.image} style={{width:200,height:200, borderRadius: 200}}/>
+                            </h2>
+                            
+                            <li>{ app.description }</li>
+                            <li>{ app.category.category_name }</li>
+            
+                            <FaHeart className="faheart" id="faheart" style={{color: "white"}}/>
+                           
+                        </div>
+                    )) }
+                </div>
 
                 <div className="max-w-7xl mx-auto p-6 lg:p-8">
                     
@@ -47,6 +115,10 @@ export default function Welcome(props) {
                     }
                 }
             `}</style>
+            
+        );
         </>
+        
     );
 }
+export default Welcome;

@@ -20,6 +20,9 @@
         "vite": "^4.0.0"
     },
     "dependencies": {
-        "react-icons": "^4.8.0"
+        "mui-file-input": "^2.0.0",
+        "mui-typography": "^1.1.2",
+        "react-icons": "^4.8.0",
+        "react-typography": "^0.16.23"
     }
 }

@@ -8,12 +8,25 @@ use App\Models\App;
 use App\Models\Category;
 use App\Models\Review;
 use App\Http\Requests\PostRequest;
+use App\Http\Requests\ReviewRequest;
 use Auth;
 use Gate;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
 
 class AppController extends Controller
 {   
+    public function welcome(App $app, Category $category)
+    {
+        return Inertia::render('Welcome', [
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'laravelVersion' => Application::VERSION,
+            'phpVersion' => PHP_VERSION,
+            "user"=>Auth::user(),"apps"=> App::with("category")->get(),"categories"=>$category->get()
+        ]);
+    }
     public function index(App $app, Category $category)
     {
         $favorites = DB::table("app_user")->where("user_id","=",Auth::id())->get();
@@ -21,11 +34,15 @@ class AppController extends Controller
     }
     public function like(Request $request, App $app){
         $user=Auth::user();
-        $like_app->$request['app_id'];
-        $f_app->$request->all();
-        $user->fill($like_app)->save();
-        $user->apps()->attach($f_app);
-        return redirect ("/apps");
+        $input = $request ->all();
+        $input += array("app_id"=>$app->id);
+        $user->apps()->attach($input);
+        return false;
+    }
+    public function dislike(App $app){
+        $user=Auth::user();
+        $user->apps()->detach($app);
+        // return redirect ("/apps");
     }
     public function show(App $app, Review $review){
         return Inertia::render("App/Show",["user"=>Auth::user(),"app"=>$app->load('category'), "reviews"=>$review->get()]);
@@ -40,9 +57,9 @@ class AppController extends Controller
         $app->fill($input)->save();
         return redirect("/apps/" . $app->id);
     }
-    public function send_review(Request $postrequest, App $app, Review $review)
+    public function send_review(ReviewRequest $reviewrequest, App $app, Review $review)
     {
-        $input = $postrequest->all();
+        $input = $reviewrequest->all();
         $input += array("app_id"=>$app->id);
         $input += array("user_id"=>Auth::id());
         $review->fill($input)->save();
@@ -50,7 +67,7 @@ class AppController extends Controller
     }
     public function edit(App $app)
     {
-        return Inertia::render("App/Edit",["app"=>$app]);
+        return Inertia::render("App/Edit",["user"=>Auth::user(),"app"=>$app]);
     }
     public function update(PostRequest $postrequest, App $app)
     {
@@ -66,7 +83,7 @@ class AppController extends Controller
    public function editorregister(){
        return Inertia::render("Auth/EditorRegister");
    }
-   public function favorite(App $app)
+   public function favorite(App $app, Category $category)
    {
        $favorites = DB::table("app_user")->where("user_id","=",Auth::id())->get();
        return Inertia::render("App/Favorite",["user"=>Auth::user(),"favorites"=>$favorites,"apps"=> App::with("category")->get()]);

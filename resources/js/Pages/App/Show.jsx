@@ -7,12 +7,18 @@ const Show = (props) => {
     const app= props.app;
     const user= props.user;
     const reviews = props.reviews;
+    const app_reviews = [];
+    {   reviews.forEach((review)=>{
+            if(review.app_id==app.id){
+                app_reviews.push(review);
+        }
+    })}
     const handleDeleteApp = (id) =>{
         router.delete(`/apps/${id}`,{
             onBefore: () => confirm("本当に削除しますか？"),
         });
     };
-    const {data, setData, post}=useForm ({
+    const {data, setData, post}= useForm ({
             title:"",
             text:"",
             stars:0
@@ -20,7 +26,7 @@ const Show = (props) => {
     
     const [preStars, setPreStars] = useState(0);
     
-    const handleSendPosts = (e) =>{
+    const handleSendPosts = (e) => {
         e.preventDefault();
         console.log("pushed");
         setData("stars",Number(selectedStars));
@@ -30,17 +36,15 @@ const Show = (props) => {
         if (app.user_id==user.id){
             return  (
                     <div>
-                        <Link as="button" type="button"  href={`/apps/${app.id}/edit`}>編集</Link>
-                        <Link as="button" type="button" onClick={() =>handleDeleteApp(app.id)}>delete</Link>
+                        <Link as="button" type="button" className="p-1 bg-blue-300 hover:bg-purple-400 rounded-md"  href={`/apps/${app.id}/edit`}>編集</Link>
+                        <Link as="button" type="button" className="p-1 bg-blue-300 hover:bg-purple-400 rounded-md" onClick={() =>handleDeleteApp(app.id)}>delete</Link>
                     </div>
                     );
                 
         }
     }
     
-    const Star = ({ selected = false, onSelected = f =>f}) => (
-        <FaStar color={selected ? "red": "grey"}/>
-        );
+    
     const [selectedStars,setSelectedStars] = useState(0);
     
     return (
@@ -56,7 +60,7 @@ const Show = (props) => {
             </div>
             <div className="p-12">
                 <h2>Review</h2>
-                {reviews.map((review)=>
+                {app_reviews.map((review)=>
                     <div key= {review.id}>
                         <h3>{ review.title }</h3>
                         <p>{ review.text }</p>
@@ -74,10 +78,12 @@ const Show = (props) => {
                     <div>
                         <h4>Title</h4>
                         <input type="text" placeholder="タイトルを入力してください" onChange={(e)=>setData("title",e.target.value)}/>
+                        <span className="text-red-600">{props.errors.title}</span>
                     </div>
                     <div>
                         <h4>Text</h4>
                         <input type = "text" placeholder="本文を入力してください" onChange={(e)=>setData("text",e.target.value)}/>
+                        <span className="text-red-600">{props.errors.text}</span>
                     </div>
                     <div>
                         <h4>Rating</h4>
@@ -96,7 +102,7 @@ const Show = (props) => {
             <Edit/>
             
             <div>
-                <Link href="/apps">戻る</Link>
+                <Link href="/apps" className="p-1 bg-purple-300 hover:bg-purple-400 rounded-md">戻る</Link>
             </div>
         
         </Authenticated>

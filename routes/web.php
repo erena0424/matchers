@@ -18,14 +18,8 @@ use App\Http\Controllers\AppController;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
-});
+Route::get('/', [AppController::class,"welcome"]);
+
 
 Route::get('/editorregister',[AppController::class,"editorregister"]);
 
@@ -44,15 +38,19 @@ Route::group(["middleware" => ["auth"]], function() {
     
     Route::get("/apps", [AppController::class, "index"])
         ->name('app.index');
-    Route::post("/apps/fev",[AppController::class,"like"]);
-    Route::get("/apps/create", [AppController::class,"create"]);
+    Route::post("/apps/fev/{app}",[AppController::class,"like"]);
+    Route::delete("/apps/fev/{app}",[AppController::class,"dislike"]);
+    Route::get("/apps/create", [AppController::class,"create"])
+        ->name('app.create');
+    Route::get("/apps/favorite",[AppController::class,"favorite"])
+        ->name('app.favorite');
     Route::get("/apps/{app}/edit",[AppController::class,"edit"]);
     Route::get("/apps/{app}", [AppController::class,"show"]);
     Route::post("/apps/{app}",[AppController::class,"send_review"]);
     Route::post("/apps",[AppController::class,"store"]);
     Route::put("/apps/{app}",[AppController::class,"update"]);
     Route::delete("/apps/{app}",[AppController::class,"delete"]);
-    Route::get("/apps/favorite",[AppController::class,"favorite"]);
+    
 });
     
 require __DIR__.'/auth.php';
