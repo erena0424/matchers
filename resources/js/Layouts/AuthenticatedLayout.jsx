@@ -7,7 +7,14 @@ import { Link } from '@inertiajs/react';
 
 export default function Authenticated({ auth, header, children }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-
+    const role = auth.user.role;
+    const NavCreate = (auth)=>{
+        if (role=='administrator'||role=='editor'){
+            return  (<NavLink href="/apps/create" active={route().current('app.create')}>
+                                    新規投稿
+                    </NavLink>);
+        }
+    };
     return (
         <div className="min-h-screen bg-gray-100">
             <nav className="bg-white border-b border-gray-100">
@@ -15,18 +22,21 @@ export default function Authenticated({ auth, header, children }) {
                     <div className="flex justify-between h-16">
                         <div className="flex">
                             <div className="shrink-0 flex items-center">
-                                <Link href="/">
+                                <Link href="/apps">
                                     <ApplicationLogo className="block h-9 w-auto fill-current text-gray-800" />
                                 </Link>
                             </div>
 
                             <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                                <NavLink href={route('dashboard')} active={route().current('dashboard')}>
+                                <NavLink href={route('app.index')} active={route().current('app.index')}>
                                     Dashboard
                                 </NavLink>
-                                <NavLink href={route('app.index')} active={route().current('index')}>
-                                    Apps
-                                </NavLink>   
+                                
+                                <NavCreate/>
+                                   
+                                <NavLink href="/apps/favorite" active={route().current('app.favorite')}>
+                                    お気に入り
+                                </NavLink>
                             </div>
                         </div>
 

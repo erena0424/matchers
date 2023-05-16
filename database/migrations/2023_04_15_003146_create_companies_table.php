@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('company_name',50);
             $table->string('country',50);
             $table->string('address',200);
+            $table->char('postcode',7);
             $table->timestamps();
         });
     }
