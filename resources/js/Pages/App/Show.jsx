@@ -1,12 +1,10 @@
 import React,{useState} from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import { Link, router, useForm } from '@inertiajs/react';
-import { FaStar } from "react-icons/fa";
+import { FaStar,FaHeart } from "react-icons/fa";
 
 const Show = (props) => {
-    const app= props.app;
-    const user= props.user;
-    const reviews = props.reviews;
+    const {app,user,reviews,favorites}= props;
     const app_reviews = [];
     {   reviews.forEach((review)=>{
             if(review.app_id==app.id){
@@ -32,6 +30,18 @@ const Show = (props) => {
         setData("stars",Number(selectedStars));
         post(`/apps/${app.id}`);
     };
+    
+    
+    
+    const [selectedStars,setSelectedStars] = useState(0);
+    const isFavorite = ({id}) => {
+        for (var i=0;i<favorites.length;i++){
+            if (favorites[i].app_id==id){
+                return true;
+            }
+        }
+        return false;
+    };
     function Edit(){
         if (app.user_id==user.id){
             return  (
@@ -43,20 +53,29 @@ const Show = (props) => {
                 
         }
     }
-    
-    
-    const [selectedStars,setSelectedStars] = useState(0);
+    async function changefavorite(app,e){
+        e.preventDefault();
+        console.log(e);
+        if (isFavorite(app)){
+            console.log("いいね済み");
+            router.delete(`/apps/fev/${app.id}`);
+        }else{
+            console.log("未いいね");
+            router.post(`/apps/fev/${app.id}`);
+        }
+    }
     
     return (
         <Authenticated auth={props.auth} header={
             <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                Index
+                {app.name}
             </h2>
         }>
             <div className="p-12">
-                <h1>{ app.name }</h1><img src={app.image} style={{width:200,height:200, borderRadius: 200}}/>
+                <h1 className="font-bold">{ app.name }</h1><img src={app.image} style={{width:200,height:200, borderRadius: 200}}/>
                 <p>{ app.description }</p>
                 <p>{ app.category.category_name }</p>
+                <FaHeart className="faheart" id="faheart" onClick={(e) => changefavorite(app,e)} style={{color: isFavorite(app) ?　"#E0306C"  : "white"}}/>
             </div>
             <div className="p-12">
                 <h2>Review</h2>
@@ -64,15 +83,16 @@ const Show = (props) => {
                     <div key= {review.id}>
                         <h3>{ review.title }</h3>
                         <p>{ review.text }</p>
-                        {[...Array(review.stars)].map((n,i)=>(
+                        {[...Array(5)].map((n,i)=>(
                         <FaStar key={i} 
                         selected = {selectedStars>i}
-                        color={data.stars>=i||preStars>=i ? "red": "grey"} style={{display: 'inline-block'}}
+                        color={review.stars>=i ? "red": "grey"} style={{display: 'inline-block'}}
                         onSelected = {()=>setSelectedStars(i+1)}/>))}
                     </div>
                 )}
             </div>
-            <div>
+            <hr className="divided-dashed"/>
+            <div className="p-12">
                 <h3>レビューを投稿</h3>
                 <form onSubmit={handleSendPosts}>
                     <div>
@@ -90,7 +110,7 @@ const Show = (props) => {
                         {(()=>{
                             const items=[];
                             for(let i=1;i<=5;i++){
-                                items.push(<FaStar color={data.stars>=i||preStars>=i ? "red": "grey"} style={{display: 'inline-block'}} onMouseEnter={()=>setPreStars(i)} onMouseLeave={()=>setPreStars(0)} onClick={(e)=>setData("stars",i)}/>);
+                                items.push(<FaStar color={preStars>=i ? "red": "grey"} style={{display: 'inline-block'}} onMouseEnter={()=>setPreStars(i)} onMouseLeave={()=>setPreStars(0)} onClick={(e)=>setData("stars",i)}/>);
                             }
                             return items;
                         })()}<br/>

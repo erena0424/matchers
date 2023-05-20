@@ -37,7 +37,7 @@ const Create = (props) => {
     
                         <form onSubmit={handleSendPosts}>
                             <div>
-                                <h2 className="text-blue-600">Name</h2>
+                                <h2>Name</h2>
                                 <input type="text" placeholder="名前を入力してください" onChange={(e) => setData("name", e.target.value)}/>
                                 <span className="text-red-600">{props.errors.name}</span>
                             </div>                    

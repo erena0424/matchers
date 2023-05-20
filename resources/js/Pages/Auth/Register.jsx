@@ -32,7 +32,7 @@ export default function Register() {
     };
 
     return (
-        <GuestLayout>
+        <GuestLayout title="新規登録">
             <Head title="Register" />
 
             <form onSubmit={submit}>

@@ -10,7 +10,7 @@ const Index = (props) => {
         app_id:""
     });
     const [keyword, setKeyWord] = useState("");
-    const [key_id,setKey_id] = useState(1);
+    const [key_id,setKey_id] = useState("all");
     const inputRef=useRef(null);
     const selectedRef=useRef(null);
     const Createbutton=()=>{
@@ -35,6 +35,7 @@ const Index = (props) => {
     }
     function search(){
         const filteredApps = apps.filter((app)=>{
+            console.log(key_id);
             const name=app.name;
             const description=app.description;
             const category_id=app.category_id;
@@ -75,16 +76,17 @@ const Index = (props) => {
                     Dashboard
                 </h2>
             }>
-            <Createbutton/><br/>
-            <input ref = {inputRef} type='text' value={keyword} onChange={handleKeywordChange}/><br/>
-            <select ref={selectedRef} onChange={handleKey_idChange}>
-            {categories?.map((category)=>
-                <option value={category.id}>{category.category_name}</option>
-            )}
-                <option　value="all">すべて選択</option>
-            </select><br/>
-            <button onClick={search} >検索</button><br/>
-            <button onClick={clear}>クリア</button>
+            <div className="p-2 grid place-items-center">
+                <input className="w-64 px-18" type='text' value={keyword} onChange={handleKeywordChange}/><br/>
+                <select onChange={handleKey_idChange} className="w-64 px-18">
+                    <option value="all">すべて選択</option>
+                {categories?.map((category)=>
+                    <option value={category.id}>{category.category_name}</option>
+                )}
+                </select><br/>
+                <button onClick={search} className="rounded border-2 border-color:#bfdbfe w-32 px-34">検索</button><br/>
+                <button onClick={clear} className="rounded border-2 border-color:#bfdbfe w-32 px-34">クリア</button>
+            </div>
             <div className="p-12">
                 <h1>App Name</h1>
             
@@ -98,7 +100,7 @@ const Index = (props) => {
                         <li>{ app.description }</li>
                         <li>{ app.category.category_name }</li>
         
-                        <FaHeart className="faheart" id="faheart" onClick={(e) => changefavorite(app,e)} style={{color: isFavorite(app) ?　"#E0306C"  : "white"}}/>
+                        <FaHeart className="faheart" id="faheart" onClick={(e) => changefavorite(app,e)} style={{color: isFavorite(app) ? "#E0306C"  : "white"}}/>
                        
                     </div>
                 )) }

@@ -1,12 +1,11 @@
 import React,{useState} from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
-import { Link, router, useForm } from '@inertiajs/react';
-import { FaStar } from "react-icons/fa";
+import { Link, router } from '@inertiajs/react';
+import { FaHeart } from "react-icons/fa";
 
 const Favorite = (props) => {
     const apps= props.apps;
     const favorites= props.favorites;
-    const user= props.user;
     const isFavorite = ({id}) => {
         for (var i=0;i<favorites.length;i++){
             if (favorites[i].app_id==id){
@@ -16,12 +15,6 @@ const Favorite = (props) => {
         return false;
     };
     
-    const favoriteApps =(apps,f_apps)=> {
-        apps.forEach((app)=>{
-            if(isFavorite(app)){
-                f_apps.push(app);
-        }
-    })};
     
     const f_apps = [];
     {
@@ -30,9 +23,16 @@ const Favorite = (props) => {
                 f_apps.push(app);
         }
     })}
-    console.log("apps",apps);
-    console.log("favorites",favorites);
-    console.log("f_apps",f_apps);
+    
+    async function changefavorite(app,e){
+        e.preventDefault();
+        console.log(e);
+        if (isFavorite(app)){
+            router.delete(`/apps/fev/${app.id}`);
+        }else{
+            router.post(`/apps/fev/${app.id}`);
+        }
+    }
     
     return (
         <Authenticated auth={props.auth} header={
@@ -51,6 +51,7 @@ const Favorite = (props) => {
                         <img src={app.image} style={{width:200,height:200, borderRadius: 200}}/>
                         <li>{ app.description }</li>
                         <li>{ app.category.category_name }</li>
+                        <FaHeart className="faheart" id="faheart" onClick={(e) => changefavorite(app,e)} style={{color: isFavorite(app) ? "#E0306C"  : "white"}}/>
                     </div>
                 ))}
             </div>

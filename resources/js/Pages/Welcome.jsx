@@ -1,6 +1,8 @@
-import { Link, Head,useForm } from '@inertiajs/react';
+import { Link, Head,useForm,router } from "@inertiajs/react";
 import {useState,useRef} from "react";
-import {FaHeart} from 'react-icons/fa';
+import {FaHeart} from "react-icons/fa";
+import Popup from "reactjs-popup";
+import Authenticated from "@/Layouts/AuthenticatedLayout";
 
 const Welcome = (props)=> {
     const {apps,user,categories}=props;
@@ -40,6 +42,9 @@ const Welcome = (props)=> {
         selectedRef.current.value="all";
         setSearchedApps(apps);
     }
+    function register(){
+        router.get("/register");
+    }
     return (
         <>
             <Head title="Welcome" />
@@ -69,14 +74,18 @@ const Welcome = (props)=> {
                                 href={route('login')}
                                 className="font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                             >
-                                Log in
+                                ログイン
                             </Link>
 
                             <Link
                                 href={route('register')}
                                 className="ml-4 font-semibold text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white focus:outline focus:outline-2 focus:rounded-sm focus:outline-red-500"
                             >
-                                Register
+                                新規登録
+                            </Link>
+                            <br/>
+                            <Link href="/editorregister">
+                                投稿者として登録する
                             </Link>
                         </>
                     )}
@@ -94,7 +103,8 @@ const Welcome = (props)=> {
                             <li>{ app.description }</li>
                             <li>{ app.category.category_name }</li>
             
-                            <FaHeart className="faheart" id="faheart" style={{color: "white"}}/>
+                            <FaHeart onclick={register} className="faheart" id="faheart" style={{color: "white"}} />
+                             
                            
                         </div>
                     )) }
@@ -116,9 +126,8 @@ const Welcome = (props)=> {
                 }
             `}</style>
             
-        );
         </>
         
     );
-}
+};
 export default Welcome;

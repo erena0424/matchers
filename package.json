@@ -23,6 +23,7 @@
         "mui-file-input": "^2.0.0",
         "mui-typography": "^1.1.2",
         "react-icons": "^4.8.0",
-        "react-typography": "^0.16.23"
+        "react-typography": "^0.16.23",
+        "reactjs-popup": "^2.0.5"
     }
 }

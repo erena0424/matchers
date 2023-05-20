@@ -45,7 +45,8 @@ class AppController extends Controller
         // return redirect ("/apps");
     }
     public function show(App $app, Review $review){
-        return Inertia::render("App/Show",["user"=>Auth::user(),"app"=>$app->load('category'), "reviews"=>$review->get()]);
+        $favorites = DB::table("app_user")->where("user_id","=",Auth::id())->get();
+        return Inertia::render("App/Show",["user"=>Auth::user(),"app"=>$app->load('category'), "reviews"=>$review->get(),"favorites"=>$favorites]);
     }
     public function create(Category $category){
         return Inertia::render("App/Create",["user"=>Auth::user(),"categories"=>$category->get()]);
