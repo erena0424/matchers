@@ -3,6 +3,7 @@ import React, {useState,useRef } from "react";
 import Authenticated from "@/Layouts/AuthenticatedLayout";
 import {FaHeart} from 'react-icons/fa';
 
+
 const Index = (props) => {
     const {apps,user,categories,favorites}=props;
     const [searchedApps,setSearchedApps] = useState(apps);
@@ -35,7 +36,6 @@ const Index = (props) => {
     }
     function search(){
         const filteredApps = apps.filter((app)=>{
-            console.log(key_id);
             const name=app.name;
             const description=app.description;
             const category_id=app.category_id;
@@ -51,10 +51,12 @@ const Index = (props) => {
         });
         setSearchedApps(filteredApps);
     }
-    function clear(){
+    async function clear(){
         inputRef.current.value="";
         selectedRef.current.value="all";
         setSearchedApps(apps);
+        setKeyWord("");
+        setKey_id("all");
     }
     
     async function changefavorite(app,e){
@@ -77,8 +79,8 @@ const Index = (props) => {
                 </h2>
             }>
             <div className="p-2 grid place-items-center">
-                <input className="w-64 px-18" type='text' value={keyword} onChange={handleKeywordChange}/><br/>
-                <select onChange={handleKey_idChange} className="w-64 px-18">
+                <input ref = {inputRef} className="w-64 px-18" type='text' value={keyword} onChange={handleKeywordChange}/><br/>
+                <select ref = {selectedRef} onChange={handleKey_idChange} className="w-64 px-18">
                     <option value="all">すべて選択</option>
                 {categories?.map((category)=>
                     <option value={category.id}>{category.category_name}</option>

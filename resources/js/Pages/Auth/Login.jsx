@@ -39,7 +39,7 @@ export default function Login({ status, canResetPassword }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="email" value="Email" />
+                    <InputLabel htmlFor="email" value="Eメール" />
 
                     <TextInput
                         id="email"
@@ -56,7 +56,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="パスワード" />
 
                     <TextInput
                         id="password"
@@ -74,7 +74,7 @@ export default function Login({ status, canResetPassword }) {
                 <div className="block mt-4">
                     <label className="flex items-center">
                         <Checkbox name="remember" value={data.remember} onChange={handleOnChange} />
-                        <span className="ml-2 text-sm text-gray-600">Remember me</span>
+                        <span className="ml-2 text-sm text-gray-600">ログインしたままにする</span>
                     </label>
                 </div>
 
@@ -95,7 +95,8 @@ export default function Login({ status, canResetPassword }) {
                     </Link>
                     <PrimaryButton className="ml-4" disabled={processing}>
                         ログイン
-                    </PrimaryButton>
+                    </PrimaryButton><br/>
+                    
                 </div>
             </form>
         </GuestLayout>

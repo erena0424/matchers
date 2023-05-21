@@ -2,7 +2,8 @@ import { Link, Head,useForm,router } from "@inertiajs/react";
 import {useState,useRef} from "react";
 import {FaHeart} from "react-icons/fa";
 import Popup from "reactjs-popup";
-import Authenticated from "@/Layouts/AuthenticatedLayout";
+
+import ApplicationLogo from '@/Components/ApplicationLogo';
 
 const Welcome = (props)=> {
     const {apps,user,categories}=props;
@@ -11,7 +12,7 @@ const Welcome = (props)=> {
         app_id:""
     });
     const [keyword, setKeyWord] = useState("");
-    const [key_id,setKey_id] = useState(1);
+    const [key_id,setKey_id] = useState("all");
     const inputRef=useRef(null);
     const selectedRef=useRef(null);
     function handleKeywordChange(e){
@@ -41,26 +42,21 @@ const Welcome = (props)=> {
         inputRef.current.value="";
         selectedRef.current.value="all";
         setSearchedApps(apps);
+        setKeyWord("");
+        setKey_id("all");
     }
-    function register(){
-        router.get("/register");
-    }
+   
     return (
         <>
             <Head title="Welcome" />
             <div className="relative sm:flex sm:justify-center sm:items-center min-h-screen bg-dots-darker bg-center bg-gray-100 dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
                 <div className="sm:fixed sm:top-0 sm:left-0">
-                    <input ref = {inputRef} type='text' value={keyword} onChange={handleKeywordChange}/><br/>
-                    <select ref={selectedRef} onChange={handleKey_idChange}>
-                    {categories?.map((category)=>
-                        <option value={category.id}>{category.category_name}</option>
-                    )}
-                        <option　value="all">すべて選択</option>
-                    </select><br/>
-                    <button className="p-1 bg-purple-300 hover:bg-purple-400 rounded-md" onClick={search} >検索</button><br/>
-                    <button className="p-1 bg-purple-300 hover:bg-purple-100 rounded-md" onClick={clear}>クリア</button>
+                    <ApplicationLogo className="w-20 h-20 fill-current text-gray-500" />
+                    <h1 className="font-serif italic font-bold text-blue-300">Matchers</h1>
                 </div>
-                <div className="sm:fixed sm:top-0 sm:right-0 p-6 text-right">
+                
+                
+                <div className="sm:fixed sm:top-0 sm:right-0 p-6 sm:text-right">
                     {props.auth.user ? (
                         <Link
                             href={route('dashboard')}
@@ -90,7 +86,18 @@ const Welcome = (props)=> {
                         </>
                     )}
                 </div>
-                <div className="p-12">
+                <div className="p-2 grid place-items-center absolute top-5">
+                    <input ref = {inputRef} className="w-64 px-18" type='text' value={keyword} onChange={handleKeywordChange}/><br/>
+                    <select ref = {selectedRef} onChange={handleKey_idChange} className="w-64 px-18">
+                        <option value="all">すべて選択</option>
+                    {categories?.map((category)=>
+                        <option value={category.id}>{category.category_name}</option>
+                    )}
+                    </select><br/>
+                    <button onClick={search} className="rounded border-2 border-color:#bfdbfe w-32 px-34">検索</button><br/>
+                    <button onClick={clear} className="rounded border-2 border-color:#bfdbfe w-32 px-34">クリア</button>
+                </div>
+                <div className="p-12 sm:fixed sm:top-40 sm:left-0">
                     <h1>App Name</h1>
                 
                     {searchedApps.map((app) => (
@@ -102,16 +109,12 @@ const Welcome = (props)=> {
                             
                             <li>{ app.description }</li>
                             <li>{ app.category.category_name }</li>
-            
-                            <FaHeart onclick={register} className="faheart" id="faheart" style={{color: "white"}} />
-                             
+                            <Link href={route('register')}>
+                                <FaHeart className="faheart" id="faheart" style={{color: "white"}} />
+                            </Link>
                            
                         </div>
                     )) }
-                </div>
-
-                <div className="max-w-7xl mx-auto p-6 lg:p-8">
-                    
                 </div>
             </div>
 

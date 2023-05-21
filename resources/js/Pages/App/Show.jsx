@@ -25,9 +25,9 @@ const Show = (props) => {
     const [preStars, setPreStars] = useState(0);
     
     const handleSendPosts = (e) => {
+        console.log("stars",data.stars,"preStars",preStars);
         e.preventDefault();
         console.log("pushed");
-        setData("stars",Number(selectedStars));
         post(`/apps/${app.id}`);
     };
     
@@ -64,6 +64,15 @@ const Show = (props) => {
             router.post(`/apps/fev/${app.id}`);
         }
     }
+    function setRating(i){
+        if (data.stars==i){
+            setData("stars",i-1);
+            console.log("stars",data.stars,"preStars",preStars);
+        }else{
+            setData("stars",i);
+            console.log("stars",data.stars,"preStars",preStars);
+        }
+    }
     
     return (
         <Authenticated auth={props.auth} header={
@@ -97,12 +106,12 @@ const Show = (props) => {
                 <form onSubmit={handleSendPosts}>
                     <div>
                         <h4>Title</h4>
-                        <input type="text" placeholder="タイトルを入力してください" onChange={(e)=>setData("title",e.target.value)}/>
+                        <input type="text" className="w-96" placeholder="タイトルを入力してください" onChange={(e)=>setData("title",e.target.value)}/>
                         <span className="text-red-600">{props.errors.title}</span>
                     </div>
                     <div>
                         <h4>Text</h4>
-                        <input type = "text" placeholder="本文を入力してください" onChange={(e)=>setData("text",e.target.value)}/>
+                        <input type = "text" className="w-96 h-48" placeholder="本文を入力してください" onChange={(e)=>setData("text",e.target.value)}/>
                         <span className="text-red-600">{props.errors.text}</span>
                     </div>
                     <div>
@@ -110,7 +119,7 @@ const Show = (props) => {
                         {(()=>{
                             const items=[];
                             for(let i=1;i<=5;i++){
-                                items.push(<FaStar color={preStars>=i ? "red": "grey"} style={{display: 'inline-block'}} onMouseEnter={()=>setPreStars(i)} onMouseLeave={()=>setPreStars(0)} onClick={(e)=>setData("stars",i)}/>);
+                                items.push(<FaStar color={(preStars>=i)||(data.stars>=i) ? "red": "grey"} style={{display: 'inline-block'}} onMouseEnter={()=>setPreStars(i)} onMouseLeave={()=>setPreStars(0)} onClick={(e)=>setRating(i)}/>);
                             }
                             return items;
                         })()}<br/>
