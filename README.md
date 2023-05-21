@@ -5,7 +5,8 @@ This is a website which introduces "matching services".
     
 There are numerous "matching services" in Japan. They connect people/ companies with the same interests, which gives them more opportunities to make the most use of their skills, time, passion, etc. I believe they potentially enrich people's lives.
 
-However, as there are so many "matching services", it is difficult to find the one which suits your interest. I made this website to help people find matching services by searching them with keywords and detailed categories. 
+On the other hand, there are so many "matching services" that it is difficult to find the one which suits your interest. I made this website to help people find matching services by searching them with keywords and detailed categories. 
+
  <h2>Japanese description</h2>
  世の中には沢山のマッチングアプリが存在している。定番の婚活だけでなく、大学生とお年寄りのマッチング、旅先でのマッチングなど、その種類は非常に豊富である。また、双方にとってメリットのあるマッチングは、人と人とを繋げ、交流を活性化する非常に意義のあるものである。しかし、その豊富さ故に自分に適したマッチングアプリを見つけるのが大変であったり、潜在的なニーズを抱えていてもそもそも自分のニーズにあうアプリが存在することを知らないケースも多いと考えられる。そこで、自分にあったマッチングサービスを簡単に見つけられるアプリを作った。
 
