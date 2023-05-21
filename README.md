@@ -7,7 +7,7 @@ There are numerous "matching services" in Japan. They connect people/ companies 
 
 However, as there are so many "matching services", it is difficult to find the one which suits your interest. I made this website to help people find matching services by searching them with keywords and detailed categories. 
  <h2>Japanese description</h2>
- 世の中には沢山のマッチングアプリが存在しています。定番の婚活だけでなく、大学生とお年寄りのマッチング、旅先でのマッチングなど、その種類は非常に豊富です。また、双方にとってメリットのあるマッチングは、人と人とを繋げ、交流を活性化する非常に意義のあるものである。しかし、その豊富さ故に自分に適したマッチングアプリを見つけるのが大変であったり、潜在的なニーズを抱えていてもそもそも自分のニーズにあうアプリが存在することを知らないケースも多いと考えられる。そこで、自分にあったマッチングサービスを簡単に見つけられるアプリを作りたいと考えました。
+ 世の中には沢山のマッチングアプリが存在している。定番の婚活だけでなく、大学生とお年寄りのマッチング、旅先でのマッチングなど、その種類は非常に豊富である。また、双方にとってメリットのあるマッチングは、人と人とを繋げ、交流を活性化する非常に意義のあるものである。しかし、その豊富さ故に自分に適したマッチングアプリを見つけるのが大変であったり、潜在的なニーズを抱えていてもそもそも自分のニーズにあうアプリが存在することを知らないケースも多いと考えられる。そこで、自分にあったマッチングサービスを簡単に見つけられるアプリを作った。
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
